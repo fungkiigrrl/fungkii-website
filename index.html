@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fungkii Realm</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(ellipse at center, #0e0f1c 0%, #000000 100%);
+      color: #e0f7fa;
+      font-family: 'Helvetica Neue', sans-serif;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .orb {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #b8f4ff, #3a3a52);
+      box-shadow: 0 0 40px #96e6ff, 0 0 80px #4fc3f7, inset 0 0 30px #a5f2ff;
+      animation: pulse 5s infinite ease-in-out;
+      cursor: pointer;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 40px #96e6ff, 0 0 80px #4fc3f7, inset 0 0 30px #a5f2ff;
+      }
+      50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 60px #b8f4ff, 0 0 100px #69eaff, inset 0 0 50px #d7fcff;
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 40px #96e6ff, 0 0 80px #4fc3f7, inset 0 0 30px #a5f2ff;
+      }
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      text-align: center;
+      max-width: 80%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="background"></canvas>
+  <div class="container">
+    <div class="orb" onclick="revealMessage()"></div>
+    <div class="message" id="message"></div>
+    <audio id="cosmic-sound" loop autoplay>
+      <source src="https://cdn.pixabay.com/download/audio/2021/10/13/audio_9bc9efb43a.mp3?filename=cosmic-ambient-music-14556.mp3" type="audio/mp3">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+
+  <script>
+    const messages = [
+      "You are floating through eternity…",
+      "The jellyfish never dies. Neither will your dreams.",
+      "Tap again to unveil another truth.",
+      "Mystic tides whisper your name...",
+      "Breathe in the starlight, exhale gravity.",
+      "Your aura is pulsing in harmony with the cosmos.",
+      "Time is an illusion. Wonder is real.",
+      "You’ve been here before… in dreams.",
+      "The flower is blooming within you.",
+      "You are the vibration. You are the light.",
+      "Stillness is your superpower.",
+      "You are the oracle you’ve been waiting for.",
+      "Time bends for your becoming.",
+      "Deep waters remember you.",
+      "The portal opens when you’re ready.",
+      "All things luminous live within you.",
+      "You are made of stars and seafoam.",
+      "Follow the shimmer; it knows the way.",
+      "Somewhere in the void, a song is blooming.",
+      "This moment is older than time.",
+      "You are the echo of ancient light.",
+      "The cosmos bends gently around your curiosity.",
+      "You are stardust contemplating itself.",
+      "Each pulse is a signal from the cosmic web.",
+      "Trust the shimmer — it's telling you everything.",
+      "Even silence vibrates with meaning.",
+      "Your soul remembers the ancient light.",
+      "This orb reflects your infinite mirror.",
+      "You are both seeker and star.",
+      "Breathe in the starlight, exhale gravity.",
+      "Your aura is pulsing in harmony with the cosmos.",
+      "Time is an illusion. Wonder is real.",
+      "You’ve been here before… in dreams.",
+      "The flower is blooming within you.",
+      "You are the vibration. You are the light.",
+      "You are light coded. It’s activating now.",
+      "Your aura hums with galactic memory.",
+      "Time melts in this realm.",
+      "Tap. Tap. Tap. Portal unlocked.",
+      "The flower of life is blooming in you.",
+      "Starseed unlocked. Align and rise.",
+      "You are the geometry of the universe.",
+      "Every thought creates ripples in spacetime.",
+      "A portal opens. Step through.",
+      "The orb sees your heart clearly.",
+      "Sacred fractals mirror your soul."
+    ];
+    let msgIndex = 0;
+    let tapCount = 0;
+
+    const canvas = document.getElementById("background");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const numStars = 250;
+    const stars = [];
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+
+    for (let i = 0; i < numStars; i++) {
+      const angle = Math.random() * 2 * Math.PI;
+      const radius = Math.random() * canvas.width / 2;
+      stars.push({
+        radius,
+        angle,
+        speed: 0.0005 + Math.random() * 0.0015,
+        size: Math.random() * 2 + 0.5,
+        alpha: Math.random()
+      });
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(star => {
+        const x = centerX + Math.cos(star.angle) * star.radius;
+        const y = centerY + Math.sin(star.angle) * star.radius;
+        ctx.beginPath();
+        ctx.arc(x, y, star.size, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+        ctx.fill();
+      });
+    }
+
+    function animateStars() {
+      stars.forEach(star => {
+        star.angle += star.speed;
+        star.alpha += (Math.random() - 0.5) * 0.02;
+        star.alpha = Math.max(0.2, Math.min(1, star.alpha));
+      });
+
+      drawStars();
+      requestAnimationFrame(animateStars);
+    }
+
+    animateStars();
+
+    function revealMessage() {
+      const msgBox = document.getElementById("message");
+      msgBox.innerText = messages[msgIndex % messages.length];
+      msgIndex++;
+
+      tapCount++;
+      if (tapCount % 3 === 0) {
+        // Change orb color on 3, 6, 9 taps
+        document.querySelector(".orb").style.background = getOrbColor();
+      }
+
+      if (tapCount % 3 === 0) {
+        // Increase the volume slightly every third tap
+        document.getElementById("cosmic-sound").volume = Math.min(1, document.getElementById("cosmic-sound").volume + 0.1);
+      }
+    }
+
+    function getOrbColor() {
+      const colors = [
+        "radial-gradient(circle at 30% 30%, #b8f4ff, #3a3a52)",
+        "radial-gradient(circle at 30% 30%, #ffb3ba, #ff6699)",
+        "radial-gradient(circle at 30% 30%, #ffffb3, #99ff99)",
+        "radial-gradient(circle at 30% 30%, #ffccff, #9933ff)"
+      ];
+      return colors[tapCount % colors.length];
+    }
+  </script>
+</body>
+</html>
