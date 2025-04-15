@@ -20,6 +20,28 @@
       align-items: center;
       height: 100vh;
       flex-direction: column;
+      position: relative;
+    }
+
+    .flower-of-life {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Flower-of-Life-black.svg/1200px-Flower-of-Life-black.svg.png') center center no-repeat;
+      background-size: contain;
+      opacity: 0.05;
+      animation: slowPulse 10s infinite ease-in-out;
+    }
+
+    @keyframes slowPulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.05;
+      }
+      50% {
+        transform: scale(1.02);
+        opacity: 0.08;
+      }
     }
 
     .orb {
@@ -30,7 +52,7 @@
       box-shadow: 0 0 40px #96e6ff, 0 0 80px #4fc3f7, inset 0 0 30px #a5f2ff;
       animation: pulse 5s infinite ease-in-out;
       cursor: pointer;
-      transition: all 0.5s ease-in-out; /* Transition for color change or growth */
+      z-index: 2;
     }
 
     @keyframes pulse {
@@ -49,9 +71,8 @@
     }
 
     .orb.bloom {
-      transform: scale(1.3); /* Makes the orb "bloom" */
-      box-shadow: 0 0 100px #f39c12, 0 0 200px #f1c40f, inset 0 0 80px #f4d03f;
-      background: radial-gradient(circle at 30% 30%, #f39c12, #3a3a52); /* Glowing golden hues */
+      background: radial-gradient(circle at 30% 30%, #ffb8e3, #3a3a52);
+      box-shadow: 0 0 80px #ff9de2, 0 0 140px #ff69c4, inset 0 0 60px #ffccf9;
     }
 
     .message {
@@ -59,14 +80,17 @@
       font-size: 1.2rem;
       text-align: center;
       max-width: 80%;
+      z-index: 2;
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <div class="flower-of-life"></div>
     <div class="orb" onclick="revealMessage()"></div>
     <div class="message" id="message"></div>
     <audio id="ambient" src="https://cdn.pixabay.com/download/audio/2022/03/01/audio_b9b937f64e.mp3?filename=underwater-world-ambient-16563.mp3" loop autoplay></audio>
+    <audio id="tap-sound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9e26021971.mp3?filename=soft-digital-tone-110084.mp3"></audio>
   </div>
 
   <script>
@@ -74,26 +98,30 @@
       "You are floating through eternity…",
       "The jellyfish never dies. Neither will your dreams.",
       "Tap again to unveil another truth.",
-      "Mystic tides whisper your name..."
+      "Mystic tides whisper your name...",
+      "You are stardust contemplating itself.",
+      "Each pulse is a signal from the cosmic web.",
+      "Trust the shimmer — it's telling you everything.",
+      "Even silence vibrates with meaning.",
+      "Your soul remembers the ancient light.",
+      "This orb reflects your infinite mirror.",
+      "You are both seeker and star."
     ];
+
     let msgIndex = 0;
     let tapCount = 0;
 
     function revealMessage() {
       const msgBox = document.getElementById("message");
-      msgBox.innerText = messages[msgIndex % messages.length];
-      msgIndex++;
-      
-      // Track the number of taps and apply bloom effect
-      tapCount++;
       const orb = document.querySelector(".orb");
+      const sound = document.getElementById("tap-sound");
 
+      msgBox.innerText = messages[Math.floor(Math.random() * messages.length)];
+      sound.play();
+
+      tapCount++;
       if (tapCount === 3) {
-        orb.classList.add("bloom"); // Apply bloom effect after 3 taps
-        setTimeout(() => {
-          orb.classList.remove("bloom"); // Reset after a delay (or repeat the effect)
-        }, 2000);
-        tapCount = 0; // Reset tap counter after the bloom effect
+        orb.classList.add("bloom");
       }
     }
   </script>
