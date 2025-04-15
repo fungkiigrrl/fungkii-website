@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fungkii Realm</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(ellipse at center, #0e0f1c 0%, #000000 100%);
+      color: #e0f7fa;
+      font-family: 'Helvetica Neue', sans-serif;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .orb {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #b8f4ff, #3a3a52);
+      box-shadow: 0 0 40px #96e6ff, 0 0 80px #4fc3f7, inset 0 0 30px #a5f2ff;
+      animation: pulse 5s infinite ease-in-out;
+      cursor: pointer;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 40px #96e6ff, 0 0 80px #4fc3f7, inset 0 0 30px #a5f2ff;
+      }
+      50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 60px #b8f4ff, 0 0 100px #69eaff, inset 0 0 50px #d7fcff;
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 40px #96e6ff, 0 0 80px #4fc3f7, inset 0 0 30px #a5f2ff;
+      }
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      text-align: center;
+      max-width: 80%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="orb" onclick="revealMessage()"></div>
+    <div class="message" id="message"></div>
+    <audio id="ambient" src="https://cdn.pixabay.com/download/audio/2022/03/01/audio_b9b937f64e.mp3?filename=underwater-world-ambient-16563.mp3" loop autoplay></audio>
+  </div>
+
+  <script>
+    const messages = [
+      "You are floating through eternity…",
+      "The jellyfish never dies. Neither will your dreams.",
+      "Tap again to unveil another truth.",
+      "Mystic tides whisper your name...",
+      "Breathe in the starlight, exhale gravity.",
+      "Your aura is pulsing in harmony with the cosmos.",
+      "Time is an illusion. Wonder is real.",
+      "You’ve been here before… in dreams.",
+      "The flower is blooming within you.",
+      "You are the vibration. You are the light."
+      "Stillness is your superpower.",
+      "You are the oracle you’ve been waiting for.",
+      "Time bends for your becoming.",
+      "Deep waters remember you.",
+      "The portal opens when you’re ready.",
+      "All things luminous live within you."
+      "You are made of stars and seafoam.",
+      "Follow the shimmer; it knows the way.",
+      "Somewhere in the void, a song is blooming.",
+      "This moment is older than time.",
+      "You are the echo of ancient light.",
+      "The cosmos bends gently around your curiosity."
+      "You are stardust contemplating itself.",
+      "Each pulse is a signal from the cosmic web.",
+      "Trust the shimmer — it's telling you everything.",
+      "Even silence vibrates with meaning.",
+      "Your soul remembers the ancient light.",
+      "This orb reflects your infinite mirror.",
+      "You are both seeker and star."
+      "Breathe in the starlight, exhale gravity.",
+      "Your aura is pulsing in harmony with the cosmos.",
+      "Time is an illusion. Wonder is real.",
+      "You’ve been here before… in dreams.",
+      "The flower is blooming within you.",
+      "You are the vibration. You are the light."
+      "You are light coded. It’s activating now.",
+      "Your aura hums with galactic memory.",
+      "Time melts in this realm.",
+      "Tap. Tap. Tap. Portal unlocked.",
+      "The flower of life is blooming in you.",
+      "Starseed unlocked. Align and rise."
+      "You are the geometry of the universe.",
+      "Every thought creates ripples in spacetime.",
+      "A portal opens. Step through.",
+      "The orb sees your heart clearly.",
+      "Sacred fractals mirror your soul."
+    ];
+    let msgIndex = 0;
+
+    function revealMessage() {
+      const msgBox = document.getElementById("message");
+      msgBox.innerText = messages[msgIndex % messages.length];
+      msgIndex++;
+    }
+  </script>
+</body>
+</html>
