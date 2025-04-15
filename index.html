@@ -3,87 +3,79 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fungkii Temple</title>
+  <title>Fungkii Realm</title>
   <style>
     body {
       margin: 0;
-      background: radial-gradient(ellipse at bottom, #0b0f2a 0%, #000 100%);
+      padding: 0;
+      background: radial-gradient(ellipse at center, #0e0f1c 0%, #000000 100%);
       color: #e0f7fa;
-      font-family: 'Georgia', serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    .mantra {
-      font-size: 1.5rem;
-      text-align: center;
-      margin: 2rem 1rem;
-      color: #b2ebf2;
-      text-shadow: 0 0 10px #81d4fa;
-      animation: floatText 12s ease-in-out infinite;
-    }
-
-    @keyframes floatText {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    .video-container {
-      position: relative;
-      width: 90%;
-      max-width: 800px;
-      padding-top: 56.25%;
-      box-shadow: 0 0 30px rgba(173, 216, 230, 0.2);
-      border-radius: 16px;
+      font-family: 'Helvetica Neue', sans-serif;
       overflow: hidden;
     }
 
-    iframe {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      border: none;
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
     }
 
-    .jellyfish {
-      position: fixed;
-      width: 100px;
-      height: 100px;
-      background: radial-gradient(circle, #ffffff33, transparent);
+    .orb {
+      width: 150px;
+      height: 150px;
       border-radius: 50%;
-      animation: drift 20s infinite alternate ease-in-out;
-      pointer-events: none;
-      opacity: 0.2;
+      background: radial-gradient(circle at 30% 30%, #b8f4ff, #3a3a52);
+      box-shadow: 0 0 40px #96e6ff, 0 0 80px #4fc3f7, inset 0 0 30px #a5f2ff;
+      animation: pulse 5s infinite ease-in-out;
+      cursor: pointer;
     }
 
-    .jelly1 { top: 10%; left: 20%; animation-delay: 0s; }
-    .jelly2 { top: 40%; left: 60%; animation-delay: 5s; }
-    .jelly3 { top: 70%; left: 30%; animation-delay: 10s; }
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 40px #96e6ff, 0 0 80px #4fc3f7, inset 0 0 30px #a5f2ff;
+      }
+      50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 60px #b8f4ff, 0 0 100px #69eaff, inset 0 0 50px #d7fcff;
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 40px #96e6ff, 0 0 80px #4fc3f7, inset 0 0 30px #a5f2ff;
+      }
+    }
 
-    @keyframes drift {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(100px, -200px) scale(1.5); }
+    .message {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      text-align: center;
+      max-width: 80%;
     }
   </style>
 </head>
 <body>
-
-  <div class="mantra">✨ All is Us ✨<br>Flow through this moment like light through water</div>
-
-  <div class="video-container">
-    <iframe src="https://player.vimeo.com/video/1075557439?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
-      allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
-      title="ringring"></iframe>
+  <div class="container">
+    <div class="orb" onclick="revealMessage()"></div>
+    <div class="message" id="message"></div>
+    <audio id="ambient" src="https://cdn.pixabay.com/download/audio/2022/03/01/audio_b9b937f64e.mp3?filename=underwater-world-ambient-16563.mp3" loop autoplay></audio>
   </div>
 
-  <div class="jellyfish jelly1"></div>
-  <div class="jellyfish jelly2"></div>
-  <div class="jellyfish jelly3"></div>
+  <script>
+    const messages = [
+      "You are floating through eternity…",
+      "The jellyfish never dies. Neither will your dreams.",
+      "Tap again to unveil another truth.",
+      "Mystic tides whisper your name..."
+    ];
+    let msgIndex = 0;
 
-  <script src="https://player.vimeo.com/api/player.js"></script>
+    function revealMessage() {
+      const msgBox = document.getElementById("message");
+      msgBox.innerText = messages[msgIndex % messages.length];
+      msgIndex++;
+    }
+  </script>
 </body>
 </html>
