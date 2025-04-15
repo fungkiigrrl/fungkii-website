@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fungkii Realm</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(ellipse at center, #0e0f1c 0%, #000000 100%);
+      color: #e0f7fa;
+      font-family: 'Helvetica Neue', sans-serif;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .orb {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #b8f4ff, #3a3a52);
+      box-shadow: 0 0 40px #96e6ff, 0 0 80px #4fc3f7, inset 0 0 30px #a5f2ff;
+      animation: pulse 5s infinite ease-in-out;
+      cursor: pointer;
+      transition: all 0.5s ease-in-out; /* Transition for color change or growth */
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 40px #96e6ff, 0 0 80px #4fc3f7, inset 0 0 30px #a5f2ff;
+      }
+      50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 60px #b8f4ff, 0 0 100px #69eaff, inset 0 0 50px #d7fcff;
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 40px #96e6ff, 0 0 80px #4fc3f7, inset 0 0 30px #a5f2ff;
+      }
+    }
+
+    .orb.bloom {
+      transform: scale(1.3); /* Makes the orb "bloom" */
+      box-shadow: 0 0 100px #f39c12, 0 0 200px #f1c40f, inset 0 0 80px #f4d03f;
+      background: radial-gradient(circle at 30% 30%, #f39c12, #3a3a52); /* Glowing golden hues */
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      text-align: center;
+      max-width: 80%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="orb" onclick="revealMessage()"></div>
+    <div class="message" id="message"></div>
+    <audio id="ambient" src="https://cdn.pixabay.com/download/audio/2022/03/01/audio_b9b937f64e.mp3?filename=underwater-world-ambient-16563.mp3" loop autoplay></audio>
+  </div>
+
+  <script>
+    const messages = [
+      "You are floating through eternity…",
+      "The jellyfish never dies. Neither will your dreams.",
+      "Tap again to unveil another truth.",
+      "Mystic tides whisper your name..."
+    ];
+    let msgIndex = 0;
+    let tapCount = 0;
+
+    function revealMessage() {
+      const msgBox = document.getElementById("message");
+      msgBox.innerText = messages[msgIndex % messages.length];
+      msgIndex++;
+      
+      // Track the number of taps and apply bloom effect
+      tapCount++;
+      const orb = document.querySelector(".orb");
+
+      if (tapCount === 3) {
+        orb.classList.add("bloom"); // Apply bloom effect after 3 taps
+        setTimeout(() => {
+          orb.classList.remove("bloom"); // Reset after a delay (or repeat the effect)
+        }, 2000);
+        tapCount = 0; // Reset tap counter after the bloom effect
+      }
+    }
+  </script>
+</body>
+</html>
