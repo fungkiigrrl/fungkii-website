@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fungkii Realm</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(ellipse at center, #0e0f1c 0%, #000000 100%);
+      overflow: hidden;
+      font-family: 'Helvetica Neue', sans-serif;
+      color: #e0f7fa;
+    }
+
+    .container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .shimmer {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(120deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0.03) 75%);
+      animation: shimmer 10s linear infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @keyframes shimmer {
+      from { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+      to { transform: translateX(-50%) translateY(-50%) rotate(360deg); }
+    }
+
+    .orb {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #b8f4ff, #3a3a52);
+      box-shadow: 0 0 40px #96e6ff, 0 0 80px #4fc3f7, inset 0 0 30px #a5f2ff;
+      animation: pulse 5s infinite ease-in-out;
+      cursor: pointer;
+      z-index: 2;
+      transition: all 0.5s ease;
+    }
+
+    .orb.blooming {
+      box-shadow: 0 0 120px #d4f1ff, 0 0 200px #b8f4ff, inset 0 0 80px #ffffff;
+      transform: scale(1.3);
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    .message {
+      z-index: 2;
+      margin-top: 20px;
+      font-size: 1.2rem;
+      text-align: center;
+      max-width: 80%;
+    }
+
+    .flower {
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      opacity: 0.05;
+      z-index: 1;
+      animation: breathe 8s ease-in-out infinite;
+      transition: opacity 1s ease, transform 1s ease, filter 1s ease;
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+
+    .flower.bloom {
+      opacity: 0.35;
+      filter: drop-shadow(0 0 12px #ffffffaa);
+      transform: scale(1.2);
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="shimmer"></div>
+
+    <div class="flower" id="flower">
+      <!-- Embedded flower of life SVG -->
+      <svg viewBox="0 0 100 100">
+        <g fill="none" stroke="white" stroke-width="0.5">
+          <circle cx="50" cy="50" r="10"/>
+          <circle cx="40" cy="50" r="10"/>
+          <circle cx="60" cy="50" r="10"/>
+          <circle cx="45" cy="41.34" r="10"/>
+          <circle cx="55" cy="41.34" r="10"/>
+          <circle cx="45" cy="58.66" r="10"/>
+          <circle cx="55" cy="58.66" r="10"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="orb" onclick="revealMessage()" id="orb"></div>
+    <div class="message" id="message"></div>
+
+    <!-- Ambient background -->
+    <audio id="ambient" src="https://cdn.pixabay.com/audio/2023/02/28/audio_29880ca16c.mp3" loop autoplay></audio>
+    <!-- Tap sound -->
+    <audio id="tapSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_79864875d8.mp3"></audio>
+    <!-- Bloom sparkle -->
+    <audio id="bloomSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_55e77cb3aa.mp3"></audio>
+  </div>
+
+  <script>
+    const messages = [
+      "You are floating through eternity…",
+      "The jellyfish never dies. Neither will your dreams.",
+      "Tap again to unveil another truth.",
+      "Mystic tides whisper your name...",
+      "You are light coded. It’s activating now.",
+      "Your aura hums with galactic memory.",
+      "Time melts in this realm.",
+      "Tap. Tap. Tap. Portal unlocked.",
+      "The flower of life is blooming in you.",
+      "Starseed unlocked. Align and rise.",
+      "You are the geometry of the universe.",
+      "Every thought creates ripples in spacetime.",
+      "A portal opens. Step through.",
+      "The orb sees your heart clearly.",
+      "Sacred fractals mirror your soul."
+    ];
+
+    let msgIndex = 0;
+    let tapCount = 0;
+
+    function revealMessage() {
+      const msgBox = document.getElementById("message");
+      const orb = document.getElementById("orb");
+      const flower = document.getElementById("flower");
+      const tapSound = document.getElementById("tapSound");
+      const bloomSound = document.getElementById("bloomSound");
+
+      // play synth tap
+      tapSound.currentTime = 0;
+      tapSound.play();
+
+      msgBox.innerText = messages[msgIndex % messages.length];
+      msgIndex++;
+      tapCount++;
+
+      if (tapCount === 3) {
+        orb.classList.add("blooming");
+        flower.classList.add("bloom");
+      }
+
+      if (tapCount === 8) {
+        orb.style.background = "radial-gradient(circle at 30% 30%, #ffccf9, #d4aaff)";
+        orb.style.boxShadow = "0 0 120px #ffccf9, 0 0 200px #d4aaff, inset 0 0 80px #ffebff";
+        bloomSound.play();
+      }
+    }
+  </script>
+</body>
+</html>
