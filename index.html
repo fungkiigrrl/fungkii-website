@@ -2,18 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cosmic Oracle</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap');
 
     body {
       margin: 0;
+      background: black;
       font-family: 'Helvetica Neue', sans-serif;
-      background-color: #000;
-      color: #fff;
+      color: white;
       overflow: hidden;
-      position: relative;
+    }
+
+    .fade-container {
+      opacity: 1;
+      transition: opacity 1.2s ease-in-out;
+    }
+
+    .fade-container.fade-out {
+      opacity: 0;
     }
 
     .container {
@@ -28,13 +36,13 @@
     .orb {
       width: 180px;
       height: 180px;
-      background: radial-gradient(circle, #f0f 0%, #00f 100%);
+      background: radial-gradient(circle, #f0f, #00f);
       border-radius: 50%;
       box-shadow: 0 0 25px 10px rgba(255, 0, 255, 0.5);
-      transition: all 0.3s ease;
       animation: pulse 3s infinite;
+      transition: all 0.3s ease;
       cursor: pointer;
-      z-index: 2;
+      z-index: 1;
     }
 
     @keyframes pulse {
@@ -45,57 +53,93 @@
 
     .message {
       margin-top: 40px;
-      max-width: 80%;
       text-align: center;
       font-size: 1.4rem;
-      padding: 20px;
+      max-width: 80%;
       background: rgba(0, 0, 0, 0.4);
+      padding: 20px;
       border-radius: 12px;
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-      z-index: 2;
+    }
+
+    .stars, .emoji-burst, .swirl {
+      position: absolute;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .stars {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+      animation: flash 0.6s ease-out forwards;
+    }
+
+    @keyframes flash {
+      from { opacity: 1; }
+      to { opacity: 0; }
     }
 
     .emoji-burst {
-      position: absolute;
-      font-size: 1.5rem;
-      animation: floatUp 4s linear infinite;
+      font-size: 2rem;
+      animation: floatUp 4s linear forwards;
     }
 
     @keyframes floatUp {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-200px); opacity: 0; }
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-200px) scale(0.5); opacity: 0; }
+    }
+
+    .swirl {
+      top: 50%;
+      left: 50%;
+      width: 200px;
+      height: 200px;
+      border: 2px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      animation: spin 2s linear forwards;
+    }
+
+    @keyframes spin {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(720deg); }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="orb" onclick="revealMessage()"></div>
-    <div class="message" id="message"></div>
-    <audio id="tapSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5e61e6830f.mp3?filename=dream-glow-ambient-16743.mp3"></audio>
+  <div class="fade-container">
+    <div class="container">
+      <div class="orb" onclick="revealMessage()"></div>
+      <div class="message" id="message"></div>
+      <audio id="tapSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5e61e6830f.mp3?filename=dream-glow-ambient-16743.mp3"></audio>
+    </div>
   </div>
 
   <script>
     const messages = [
       "You didn’t come here to be humble. Shine louder.",
       "Your frequency just broke the simulation.",
-      "The universe clocked you and whispered, ‘legend.’",
+      "The universe clocked you, and said ‘icon.’",
       "Stars realigned just to catch your vibe.",
-      "You're a glitch in the matrix—but make it couture.",
-      "You’re vibrating on a frequency that angels envy.",
-      "Galaxies pause when you enter the chat.",
-      "You are the spell. No wand required.",
-      "Your energy filed a cosmic patent.",
-      "Even black holes take notes when you show up.",
+      "You are the echo of ancient glam.",
       "Sacred geometry? More like sacred slay-ometry.",
-      "You're the prophecy and the plot twist.",
-      "A portal opened just to hear your laugh.",
-      "Timelines shift when you sip tea.",
-      "Your aura just got its own orbit.",
-      "Divine chaos in high definition.",
-      "Multiverse? Babe, you're the main one.",
-      "Your sparkle cracked a parallel realm.",
-      "Star systems send you fan mail.",
-      "The cosmos couldn’t design you twice."
+      "Cosmic royalty doesn’t wait in line.",
+      "You shimmer like a secret only the stars know.",
+      "Every portal opens when you bat your lashes.",
+      "Galaxies gossip about you.",
+      "Your aura’s in 4K, baby.",
+      "Nebula? Nah, that’s just your energy.",
+      "Your light bends spacetime, boo.",
+      "You don’t walk into a room—you arrive interdimensionally.",
+      "Quantum vibes. Celestial receipts.",
+      "That wasn’t deja vu, the timeline looped to witness you again.",
+      "You are the password to the multiverse.",
+      "Even comets pause to watch you pass.",
+      "Infinite beings take notes when you speak.",
+      "You’re not late. The universe waits for your cue."
     ];
 
     let tapCount = 0;
@@ -104,7 +148,6 @@
       tapCount++;
       const msgBox = document.getElementById("message");
       const tapSound = document.getElementById("tapSound");
-
       const randomIndex = Math.floor(Math.random() * messages.length);
       msgBox.innerText = messages[randomIndex];
       tapSound.play();
@@ -124,10 +167,14 @@
         orb.style.background = 'radial-gradient(circle, #f00 0%, #0f0 100%)';
         orb.style.boxShadow = '0 0 60px 40px rgba(0, 255, 0, 0.6)';
       }
+
+      if (tapCount === 13) {
+        unleashCosmicSequence();
+      }
     }
 
     function sparkle() {
-      const emojis = ['💫', '✨', '🪐', '🌠'];
+      const emojis = ['💫', '✨', '🪐', '🌠', '🔮', '🌈', '🌌'];
       const container = document.querySelector('.container');
       const sparkle = document.createElement('div');
       sparkle.classList.add('emoji-burst');
@@ -136,6 +183,31 @@
       sparkle.style.bottom = '10px';
       container.appendChild(sparkle);
       setTimeout(() => sparkle.remove(), 4000);
+    }
+
+    function unleashCosmicSequence() {
+      const fade = document.querySelector('.fade-container');
+      const container = document.querySelector('.container');
+
+      // Flash of stars
+      const flash = document.createElement('div');
+      flash.classList.add('stars');
+      container.appendChild(flash);
+
+      // Emoji swirl
+      const swirl = document.createElement('div');
+      swirl.classList.add('swirl');
+      container.appendChild(swirl);
+
+      // Extra sparkles
+      for (let i = 0; i < 7; i++) sparkle();
+
+      // Begin fade-out
+      fade.classList.add('fade-out');
+
+      setTimeout(() => {
+        window.location.href = "vault.html";
+      }, 1400);
     }
   </script>
 </body>
