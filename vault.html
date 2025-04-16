@@ -7,35 +7,40 @@
   <style>
     body {
       margin: 0;
-      background: black;
+      background: #000;
       font-family: 'Helvetica Neue', sans-serif;
       color: white;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      padding-top: 40px;
       min-height: 100vh;
-      padding: 40px 20px;
     }
 
     .emoji-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr); /* always 3 columns */
-      gap: 25px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      width: 90%;
       max-width: 500px;
-      width: 100%;
-      justify-items: center;
     }
 
     .emoji-link {
-      font-size: 2.5rem;
-      transition: transform 0.3s ease, filter 0.3s ease;
+      font-size: 2.4rem;
+      text-align: center;
       text-decoration: none;
+      transition: transform 0.3s ease, filter 0.3s ease;
     }
 
     .emoji-link:hover {
       transform: scale(1.4) rotate(10deg);
       filter: drop-shadow(0 0 12px #fff);
+    }
+
+    @media (max-width: 500px) {
+      .emoji-link {
+        font-size: 2.1rem;
+      }
     }
   </style>
 </head>
@@ -44,18 +49,18 @@
     <a class="emoji-link" href="https://form.jotform.com/250689310167156" title="Snail Mail">🐌</a>
     <a class="emoji-link" href="https://youtube.com" title="Video Drop">📼</a>
     <a class="emoji-link" href="https://soundcloud.com" title="Audio Tapes">🎧</a>
-    <a class="emoji-link" href="https://example.com" title="Mystery Box">🎁</a>
-    <a class="emoji-link" href="https://example.com" title="Secret Scroll">📜</a>
-    <a class="emoji-link" href="https://example.com" title="Star Map">🗺️</a>
-    <a class="emoji-link" href="https://example.com" title="Dimensional Portal">🌀</a>
-    <a class="emoji-link" href="https://example.com" title="Crystal Code">💎</a>
-    <a class="emoji-link" href="https://example.com" title="Flame Drop">🔥</a>
-    <a class="emoji-link" href="https://example.com" title="Books">📚</a>
-    <a class="emoji-link" href="https://example.com" title="Chat Room">💬</a>
-    <a class="emoji-link" href="https://example.com" title="Submissions">📨</a>
-    <a class="emoji-link" href="https://example.com" title="Hibiscus">🌺</a>
-    <a class="emoji-link" href="https://example.com" title="Crystal Ball">🔮</a>
-    <a class="emoji-link" href="https://example.com" title="Mermaid">🧜🏾‍♀️</a>
+    <a class="emoji-link" href="#" title="Mystery Box">🎁</a>
+    <a class="emoji-link" href="#" title="Secret Scroll">📜</a>
+    <a class="emoji-link" href="#" title="Star Map">🗺️</a>
+    <a class="emoji-link" href="#" title="Dimensional Portal">🌀</a>
+    <a class="emoji-link" href="#" title="Crystal Code">💎</a>
+    <a class="emoji-link" href="#" title="Flame Drop">🔥</a>
+    <a class="emoji-link" href="#" title="Books">📚</a>
+    <a class="emoji-link" href="#" title="Chat Room">💬</a>
+    <a class="emoji-link" href="#" title="Submissions">📩</a>
+    <a class="emoji-link" href="#" title="Hibiscus">🌺</a>
+    <a class="emoji-link" href="#" title="Crystal Ball">🔮</a>
+    <a class="emoji-link" href="#" title="Mermaid Vibes">🧜🏾‍♀️</a>
   </div>
 </body>
 </html>
