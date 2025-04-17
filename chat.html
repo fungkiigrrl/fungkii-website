@@ -2,84 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vault</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cosmic Chat Portal</title>
   <style>
     body {
       margin: 0;
-      background: #000;
       font-family: 'Helvetica Neue', sans-serif;
+      background: radial-gradient(circle at center, #111, #000);
       color: white;
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      padding-top: 60px; /* moved just a little up */
-      min-height: 100vh;
+      height: 100vh;
+      overflow: hidden;
+      animation: swirlIn 1.3s ease-out both;
     }
 
-    .emoji-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
-      width: 90%;
-      max-width: 500px;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeIn 1.5s ease forwards;
-    }
-
-    .emoji-link {
-      font-size: 2.4rem;
+    .content {
       text-align: center;
-      text-decoration: none;
-      transition: transform 0.3s ease, filter 0.3s ease;
+      opacity: 0;
+      animation: fadeUp 1.2s ease 1s forwards;
     }
 
-    .emoji-link:hover {
-      transform: scale(1.4) rotate(10deg);
-      filter: drop-shadow(0 0 12px #fff);
+    h1 {
+      font-size: 2.4rem;
+      margin-bottom: 1rem;
     }
 
-    @keyframes fadeIn {
-      to {
+    p {
+      font-size: 1.2rem;
+    }
+
+    @keyframes swirlIn {
+      0% {
+        transform: scale(0.5) rotate(-720deg);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1) rotate(0);
         opacity: 1;
-        transform: translateY(0);
       }
     }
 
-    @media (max-width: 500px) {
-      .emoji-link {
-        font-size: 2.1rem;
+    @keyframes fadeUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
       }
     }
   </style>
 </head>
 <body>
-  <div class="emoji-grid">
-    <a class="emoji-link" href="https://form.jotform.com/250689310167156" title="Snail Mail">🐌</a>
-    <a class="emoji-link" href="https://youtube.com" title="Video Drop">📼</a>
-    <a class="emoji-link" href="https://soundcloud.com" title="Audio Tapes">🎧</a>
-    <a class="emoji-link" href="#" title="Mystery Box">🎁</a>
-    <a class="emoji-link" href="#" title="Secret Scroll">📜</a>
-    <a class="emoji-link" href="#" title="Star Map">🗺️</a>
-    <a class="emoji-link" href="#" title="Dimensional Portal">🌀</a>
-    <a class="emoji-link" href="#" title="Crystal Code">💎</a>
-    <a class="emoji-link" href="#" title="Flame Drop">🔥</a>
-    <a class="emoji-link" href="chat.html" title="Books">📚</a>
-    <a class="emoji-link" href="#" title="Chat Room">💬</a>
-    <a class="emoji-link" href="#" title="Submissions">📩</a>
-    <a class="emoji-link" href="#" title="Hibiscus">🌺</a>
-    <a class="emoji-link" href="#" title="Crystal Ball">🔮</a>
-    <a class="emoji-link" href="#" title="Mermaid Vibes">🧜🏾‍♀️</a>
-    <a class="emoji-link" href="#" title="Palm Portal">🌴</a>
-    <a class="emoji-link" href="#" title="Mirror Realm">🪞</a>
-    <a class="emoji-link" href="#" title="Sparkle Drop">💫</a>
-    <a class="emoji-link" href="#" title="Nail Transmission">💅🏾</a>
-    <a class="emoji-link" href="#" title="Desert Codes">🐫</a>
-    <a class="emoji-link" href="#" title="Shadow Work">💩</a>
-    <a class="emoji-link" href="#" title="Genie Wishes">🧞‍♀️</a>
-    <a class="emoji-link" href="#" title="All Seeing Eye">👁</a>
-    <a class="emoji-link" href="#" title="Fairy Guide">🧚🏾‍♀️</a>
+  <div class="content">
+    <h1>💫 Whisper to the Stars 💫</h1>
+    <p>This portal listens. Something cosmic is coming... 👁️</p>
+    <!-- Firebase chat or matrix-type animation goes here later -->
   </div>
 </body>
 </html>
