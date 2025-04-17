@@ -64,6 +64,7 @@
       color: black;
       cursor: pointer;
       font-weight: bold;
+      font-size: 1.3rem;
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
@@ -72,7 +73,7 @@
   <h1>💬 Cosmic Chat</h1>
   <div id="messages"></div>
   <form id="form">
-    <input id="input" placeholder="Whisper something cosmic..." autocomplete="off" />
+    <input id="input" placeholder="Whisper something cosmic..." autocomplete="off" required />
     <button type="submit">✨</button>
   </form>
 
@@ -115,7 +116,7 @@
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const text = input.value.trim();
-      if (text) {
+      if (text !== "") {
         await addDoc(messagesRef, {
           text,
           timestamp: serverTimestamp()
