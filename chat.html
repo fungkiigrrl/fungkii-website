@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cosmic Chat</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      background: black;
+      color: white;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #messages {
+      max-width: 500px;
+      width: 100%;
+      max-height: 60vh;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+    }
+
+    .message {
+      background: #222;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+    }
+
+    form {
+      display: flex;
+      gap: 0.5rem;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    input {
+      flex-grow: 1;
+      padding: 0.5rem;
+      border-radius: 8px;
+      border: none;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: none;
+      background: white;
+      color: black;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>💬 Cosmic Chat</h1>
+  <div id="messages"></div>
+  <form id="form">
+    <input id="input" placeholder="Type your message..." autocomplete="off" />
+    <button type="submit">Send</button>
+  </form>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDrYMTTURuAAd6qyF-ms6U-1Agn5JuZEGQ",
+      authDomain: "cosmic-whispers.firebaseapp.com",
+      projectId: "cosmic-whispers",
+      storageBucket: "cosmic-whispers.appspot.com",
+      messagingSenderId: "1002018043135",
+      appId: "1:1002018043135:web:ea9e520046cf4938b288ca",
+      measurementId: "G-3J87PSZEMJ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const messagesRef = collection(db, "messages");
+    const q = query(messagesRef, orderBy("timestamp", "asc"));
+
+    const messagesEl = document.getElementById("messages");
+    const form = document.getElementById("form");
+    const input = document.getElementById("input");
+
+    onSnapshot(q, (snapshot) => {
+      messagesEl.innerHTML = "";
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const msgEl = document.createElement("div");
+        msgEl.className = "message";
+        msgEl.textContent = data.text;
+        messagesEl.appendChild(msgEl);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      });
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (text) {
+        await addDoc(messagesRef, {
+          text,
+          timestamp: serverTimestamp()
+        });
+        input.value = "";
+      }
+    });
+  </script>
+</body>
+</html>
