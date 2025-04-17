@@ -31,6 +31,8 @@
       flex-direction: column;
       gap: 16px;
       margin-bottom: 2rem;
+      max-height: 60vh;
+      overflow-y: auto;
     }
 
     .message {
@@ -69,13 +71,15 @@
     input, button {
       font-family: 'Caveat', cursive;
       font-size: 1.2rem;
-      padding: 0.5rem 1rem;
+      padding: 0.6rem 1rem;
       border-radius: 10px;
       border: none;
     }
 
     input {
       flex-grow: 1;
+      background: #111;
+      color: white;
     }
 
     button {
@@ -86,7 +90,7 @@
     }
 
     button:hover {
-      background: #ddd;
+      background: #eee;
     }
   </style>
 </head>
