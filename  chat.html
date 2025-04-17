@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cosmic Chat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at center, #0a0a0a, #000);
+      font-family: 'Caveat', cursive;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      color: #fff;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    #messages {
+      width: 90%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 2rem;
+    }
+
+    .message {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem;
+      border-radius: 12px;
+      font-size: 1.4rem;
+      animation: fadeIn 0.8s ease forwards;
+      opacity: 0;
+      transform: translateY(10px);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .message span {
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #form {
+      display: flex;
+      gap: 1rem;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    input, button {
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      border: none;
+    }
+
+    input {
+      flex-grow: 1;
+    }
+
+    button {
+      background: #fff;
+      color: #000;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <h1>💬 Whisper to the Stars</h1>
+  <div id="messages"></div>
+  <form id="form">
+    <input id="input" placeholder="Speak your cosmic truth..." />
+    <button type="submit">✨</button>
+  </form>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDrYMTTURuAAd6qyF-ms6U-1Agn5JuZEGQ",
+      authDomain: "cosmic-whispers.firebaseapp.com",
+      projectId: "cosmic-whispers",
+      storageBucket: "cosmic-whispers.appspot.com",
+      messagingSenderId: "1002018043135",
+      appId: "1:1002018043135:web:ea9e520046cf4938b288ca",
+      measurementId: "G-3J87PSZEMJ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const messagesRef = collection(db, "messages");
+    const q = query(messagesRef, orderBy("timestamp", "asc"));
+
+    const messagesEl = document.getElementById("messages");
+    const form = document.getElementById("form");
+    const input = document.getElementById("input");
+
+    const emojiAvatars = ["🌙", "🧿", "🌸", "🌌", "🦋", "🔮", "✨", "🪞", "🧚🏾‍♀️", "🧜🏾‍♀️", "👁️", "🪐"];
+    const pastelColors = ["#ffd5ec", "#d5eaff", "#e7d5ff", "#fff5d5", "#d5ffe1", "#ffdde5", "#daf5ff"];
+
+    onSnapshot(q, (snapshot) => {
+      messagesEl.innerHTML = "";
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const msgEl = document.createElement("div");
+        const avatar = emojiAvatars[Math.floor(Math.random() * emojiAvatars.length)];
+        const color = pastelColors[Math.floor(Math.random() * pastelColors.length)];
+
+        msgEl.className = "message";
+        msgEl.innerHTML = `<span>${avatar}</span><div style="color:${color}">${data.text}</div>`;
+        messagesEl.appendChild(msgEl);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      });
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (text) {
+        await addDoc(messagesRef, {
+          text,
+          timestamp: serverTimestamp()
+        });
+        input.value = "";
+      }
+    });
+  </script>
+</body>
+</html>
