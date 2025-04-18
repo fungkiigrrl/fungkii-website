@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cosmic Chatroom</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Courier New', monospace;
+      background: radial-gradient(ellipse at center, #1a0033, #000);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      overflow-y: scroll;
+      scroll-behavior: smooth;
+    }
+
+    .message {
+      margin: 10px 0;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    .input-bar {
+      display: flex;
+      border-top: 2px solid #8833ff;
+      background: #120022;
+      padding: 10px;
+    }
+
+    #messageInput {
+      flex: 1;
+      padding: 10px;
+      font-size: 1rem;
+      border: none;
+      background: #2a0055;
+      color: white;
+      font-family: inherit;
+    }
+
+    #sendButton {
+      background: #ffccff;
+      color: #330066;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-left: 10px;
+      font-family: inherit;
+    }
+
+    #sendButton:hover {
+      background: #ff66ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container" id="chatContainer">
+    <div class="message">✨ Welcome to the Cosmic AOL Chatroom ✨</div>
+  </div>
+
+  <div class="input-bar">
+    <input type="text" id="messageInput" placeholder="whisper to the stars..." />
+    <button id="sendButton">💬 Send</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDrYMTTURuAAd6qyF-ms6U-1Agn5JuZEGQ",
+      authDomain: "cosmic-whispers.firebaseapp.com",
+      projectId: "cosmic-whispers",
+      storageBucket: "cosmic-whispers.appspot.com",
+      messagingSenderId: "1002018043135",
+      appId: "1:1002018043135:web:ea9e520046cf4938b288ca",
+      measurementId: "G-3J87PSZEMJ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth();
+
+    const emojis = ["🌟", "🌙", "🧿", "💫", "🪐", "🔮", "✨"];
+    const namePrefix = ["star", "moon", "orb", "dream", "mist", "void"];
+
+    let userTag = "anon" + Math.floor(Math.random() * 999);
+    let emoji = emojis[Math.floor(Math.random() * emojis.length)];
+    let screenName = emoji + " " + namePrefix[Math.floor(Math.random() * namePrefix.length)] + userTag;
+
+    signInAnonymously(auth).catch(console.error);
+
+    const chatContainer = document.getElementById("chatContainer");
+    const input = document.getElementById("messageInput");
+    const sendButton = document.getElementById("sendButton");
+
+    sendButton.onclick = async () => {
+      const text = input.value.trim();
+      if (text) {
+        await addDoc(collection(db, "messages"), {
+          name: screenName,
+          text,
+          timestamp: new Date()
+        });
+        input.value = "";
+      }
+    };
+
+    const q = query(collection(db, "messages"), orderBy("timestamp"));
+    onSnapshot(q, snapshot => {
+      chatContainer.innerHTML = "";
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const msg = document.createElement("div");
+        msg.className = "message";
+        msg.innerHTML = `<strong>${data.name}</strong>: ${data.text}`;
+        chatContainer.appendChild(msg);
+      });
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    });
+  </script>
+</body>
+</html>
